@@ -1,0 +1,47 @@
+/* =========================
+   기본 설정
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+  background-color: #f6f7fb;
+  color: #333;
+}
+
+/* =========================
+   전체 레이아웃
+========================= */
+.app {
+  max-width: 520px;
+  margin: 60px auto;
+  padding: 0 16px;
+}
+
+.app__header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.app__header h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.app__desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.app__footer {
+  margin-top: 40px;
+  text-align: center;
+  color: #999;
+}

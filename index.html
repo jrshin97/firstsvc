@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>우리학교 구글 계정 검색</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+  <main class="app">
+    <header class="app__header">
+      <h1>구글 계정 검색</h1>
+      <p class="app__desc">
+        학번과 이름을 입력하면 해당 사용자의 구글 계정(ID)을 조회합니다.
+        비밀번호는 보안상 표시하지 않습니다.
+      </p>
+    </header>
+
+    <!-- 검색 폼: 엔터/버튼 검색을 위해 form 사용 -->
+    <form id="searchForm" class="card" autocomplete="off">
+      <div class="field">
+        <label for="studentId">학번</label>
+        <input
+          id="studentId"
+          name="studentId"
+          type="text"
+          inputmode="numeric"
+          placeholder="예: 1101"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="studentName">이름</label>
+        <input
+          id="studentName"
+          name="studentName"
+          type="text"
+          placeholder="예: 홍길동"
+          required
+        />
+      </div>
+
+      <div class="actions">
+        <button id="searchBtn" type="submit">검색</button>
+        <button id="resetBtn" type="reset">초기화</button>
+      </div>
+
+      <p id="helperText" class="helper" aria-live="polite"></p>
+    </form>
+
+    <!-- 결과 표시 영역 -->
+    <section class="card" aria-labelledby="resultTitle">
+      <h2 id="resultTitle">검색 결과</h2>
+
+      <!-- 상태 메시지(로딩/에러/없음 등) -->
+      <div id="statusBox" role="status" aria-live="polite"></div>
+
+      <!-- 결과 테이블 -->
+      <div id="resultBox" hidden>
+        <dl class="result">
+          <div class="result__row">
+            <dt>구글 계정 ID</dt>
+            <dd id="resultEmail">-</dd>
+          </div>
+
+          <div class="result__row">
+            <dt>비밀번호</dt>
+            <dd id="resultPassword">보안상 표시하지 않습니다. (초기화 필요)</dd>
+          </div>
+        </dl>
+
+        <div class="result__actions">
+          <a id="resetLink" href="#" target="_blank" rel="noopener noreferrer">
+            비밀번호 초기화 안내
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="app__footer">
+      <small>※ 계정 정보는 승인된 사용자만 조회할 수 있어야 합니다.</small>
+    </footer>
+  </main>
+
+  <script src="./app.js"></script>
+
+</body>
+</html>
