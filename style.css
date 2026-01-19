@@ -45,3 +45,144 @@ html, body {
   text-align: center;
   color: #999;
 }
+
+/* =========================
+   박스(카드) 안 정리 강화
+   - 섹션 간격/구획/정렬 개선
+========================= */
+
+/* 카드 내부 패딩과 섹션 간격을 일정하게 */
+.card {
+  padding: 24px;
+}
+
+/* 헤더/설명 글이 카드 밖에서 더 정돈되어 보이도록 */
+.app__header {
+  margin-bottom: 26px;
+}
+
+/* 폼 내부: 필드 간 간격 일정 */
+#searchForm .field {
+  margin-bottom: 14px;
+}
+
+/* 라벨-인풋 수직 정렬 깔끔하게 */
+.field label {
+  margin-bottom: 8px;
+  letter-spacing: -0.2px;
+}
+
+/* 인풋: 동일한 높이/테두리/배경으로 통일 */
+.field input {
+  height: 48px;
+  border-radius: 14px;
+  padding: 0 14px;
+}
+
+/* 버튼 영역: 위/아래 여백 균형 */
+.actions {
+  margin-top: 14px;
+  gap: 10px;
+}
+
+/* helperText는 카드 아래쪽에 붙어 보이게 */
+.helper {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f5;
+  min-height: 20px;
+}
+
+/* 결과 카드 제목(검색 결과)과 내용 구획 */
+section.card h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #111;
+}
+
+/* 상태 박스는 결과 카드 상단에 딱 정리 */
+#statusBox {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f3f4ff;
+  border: 1px solid #e6e8ff;
+  margin-bottom: 14px;
+}
+
+/* 결과 박스 자체를 하나의 “내부 박스”로 정돈 */
+#resultBox {
+  padding: 14px 14px;
+  border-radius: 14px;
+  background: #fafafa;
+  border: 1px solid #eee;
+}
+
+/* dl 레이아웃을 “그리드”로 정리해서 줄이 딱 맞게 */
+.result {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+/* 각 row를 카드형 라인으로 */
+.result__row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed #e7e7ef;
+}
+
+.result__row:last-child {
+  border-bottom: none;
+}
+
+/* dt(항목명) */
+.result dt {
+  font-size: 13px;
+  color: #666;
+  font-weight: 700;
+}
+
+/* dd(값) */
+.result dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #111;
+  text-align: left; /* 박스 안에서 정돈감 ↑ */
+  word-break: break-all; /* 이메일 길어도 박스 밖으로 안 튐 */
+}
+
+/* 결과 액션 링크를 박스 안에서 정렬 */
+.result__actions {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+  text-align: left;
+}
+
+/* 링크를 버튼처럼(정돈감) */
+.result__actions a {
+  display: inline-block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.result__actions a:hover {
+  border-color: #c7c9ff;
+  background: #f7f8ff;
+}
+
+/* 작은 화면에서 항목명이 길면 자동 정리 */
+@media (max-width: 420px) {
+  .result__row {
+    grid-template-columns: 100px 1fr;
+  }
+}
