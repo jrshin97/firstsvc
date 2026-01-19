@@ -24,6 +24,7 @@
     ["1207|김민지", { email: "1207.kimminji@school.edu" }],
     ["2303|이준호", { email: "2303.leejunho@school.edu" }],
   ]);
+  const inko = new Inko();
 
   // 비밀번호 초기화 안내 링크(원하는 URL로 교체)
   const PASSWORD_RESET_GUIDE_URL = "https://support.google.com/accounts/answer/41078?hl=ko";
@@ -31,6 +32,23 @@
   // ===== 유틸 =====
   const normalizeStudentId = (v) => String(v ?? "").trim();
   const normalizeName = (v) => String(v ?? "").trim().replace(/\s+/g, ""); // 중간 공백 제거(선택)
+
+  const buildNameCandidates = (rawName) => {
+  const base = normalizeName(rawName); // 공백 제거 + trim
+  const candidates = new Set();
+
+  if (base) candidates.add(base);
+
+  // 영어가 섞여 있으면 영타 -> 한글 변환 후보 추가
+  // (예: "ghdrlfehd" -> "홍길동")
+  if (/[a-zA-Z]/.test(base)) {
+    const converted = normalizeName(inko.en2ko(base));
+    if (converted) candidates.add(converted);
+  }
+
+  return [...candidates];
+};
+
 
   const setStatus = (msg) => {
     statusBox.textContent = msg || "";
@@ -79,29 +97,62 @@
     hideResult();
 
     const studentId = normalizeStudentId(studentIdInput.value);
-    const studentName = normalizeName(studentNameInput.value);
 
-    if (!studentId || !studentName) {
-      setStatus("학번과 이름을 모두 입력해 주세요.");
-      return;
-    }
+    const nameCandidates = buildNameCandidates(studentNameInput.value);
 
-    setStatus("검색 중...");
+if (!studentId || nameCandidates.length === 0) {
+  setStatus("학번과 이름을 모두 입력해 주세요.");
+  return;
+}
 
-    try {
-      const account = await findAccount(studentId, studentName);
+setStatus("검색 중...");
 
-      if (!account) {
-        setStatus("일치하는 계정이 없습니다. 학번/이름을 확인해 주세요.");
-        return;
-      }
+try {
+  let account = null;
 
-      setStatus("조회 완료");
-      showResult(account);
-    } catch (err) {
-      console.error(err);
-      setStatus("오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-    }
+  // 후보 이름들로 순차 검색 (원본 이름 → 변환된 이름)
+  for (const candidateName of nameCandidates) {
+    account = await findAccount(studentId, candidateName);
+    if (account) break;
+  }
+
+  if (!account) {
+    setStatus("일치하는 계정이 없습니다. 학번/이름을 확인해 주세요.");
+    return;
+  }
+
+  setStatus("조회 완료");
+  showResult(account);
+} catch (err) {
+  console.error(err);
+  setStatus("오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+}
+
+
+    
+    // const studentName = normalizeName(studentNameInput.value);
+
+    // if (!studentId || !studentName) {
+    //   setStatus("학번과 이름을 모두 입력해 주세요.");
+    //   return;
+    // }
+
+    // setStatus("검색 중...");
+
+    // try {
+    //   const account = await findAccount(studentId, studentName);
+
+    //   if (!account) {
+    //     setStatus("일치하는 계정이 없습니다. 학번/이름을 확인해 주세요.");
+    //     return;
+    //   }
+
+    //   setStatus("조회 완료");
+    //   showResult(account);
+    // } catch (err) {
+    //   console.error(err);
+    //   setStatus("오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    // }
   });
 
   form.addEventListener("reset", () => {
